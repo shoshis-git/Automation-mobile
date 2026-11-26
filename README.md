@@ -10,7 +10,8 @@
 | Java | 19 |
 | Selenium Java | 4.23.0 |
 | Appium Java Client | 9.3.0 |
-| JUnit Jupiter API | 5.10.4 |
+| JUnit Jupiter (API + Engine) | 5.10.4 |
+| Maven Surefire Plugin | 3.2.5 |
 | Automation engine | UiAutomator2 |
 
 ## מבנה הפרויקט
@@ -43,12 +44,13 @@ Automation-mobile/
 1. מוודא שמסך ההגדרות עלה.
 2. גולל (באמצעות `UiScrollable`) עד **About emulated device** ולוחץ עליו.
 3. מוודא שהתבצע ניווט – לפי שינוי ה-Activity, הופעת כפתור **Navigate up**, או היעלמות שורת החיפוש.
+4. מוודא שבעמוד מופיע תוכן של About (למשל "Android version", "Build number" או "Model").
 
 ה-enum `MainMenuItem` מרכז את שמות הפריטים בתפריט הראשי של ההגדרות.
 
 ## דרישות מקדימות
 
-- JDK 19 ומעלה
+- JDK 19 ומעלה (כשמריצים `mvn` מהטרמינל, `JAVA_HOME` צריך להצביע על JDK 19 ומעלה. עם Java 17 תתקבל השגיאה `invalid target release: 19`)
 - Maven
 - Android SDK + אמולטור עם **Android 14**, שרץ בשם `emulator-5554` (אפשר לבדוק עם `adb devices`)
 - Node.js ו-Appium עם הדרייבר UiAutomator2:
@@ -60,17 +62,15 @@ Automation-mobile/
 ## הרצה
 
 1. הפעילו את האמולטור.
-2. הפעילו את שרת Appium. הטסטים מתחברים ל-`http://127.0.0.1:4723/wd/hub`, ולכן ב-Appium 2 ומעלה צריך להגדיר base path:
+2. הפעילו את שרת Appium (הטסטים מתחברים ל-`http://127.0.0.1:4723`, ברירת המחדל של Appium 2):
    ```bash
-   appium --base-path /wd/hub
+   appium
    ```
-3. הריצו את הטסטים מה-IDE (IntelliJ: קליק ימני על מחלקת הטסט ← **Run**).
-
-> **הערה:** ב-`pom.xml` מוגדר רק `junit-jupiter-api`, בלי `junit-jupiter-engine` ובלי `maven-surefire-plugin`, ולכן `mvn test` עלול לא למצוא את הטסטים. כדי להריץ מה-command line, הוסיפו את ה-dependency של `junit-jupiter-engine` (scope `test`) ואת `maven-surefire-plugin` בגרסה 3.x, ואז:
-> ```bash
-> mvn test
-> mvn test -Dtest=SettingsTest   # הרצת מחלקה אחת
-> ```
+3. הריצו את הטסטים מה-IDE (IntelliJ: קליק ימני על מחלקת הטסט ← **Run**) או מהטרמינל:
+   ```bash
+   mvn test
+   mvn test -Dtest=SettingsTest   # הרצת מחלקה אחת
+   ```
 
 ## התאמות
 

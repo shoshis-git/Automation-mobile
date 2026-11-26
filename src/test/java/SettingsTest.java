@@ -57,7 +57,7 @@ public class SettingsTest {
                 .setNoReset(false)
                 .setNewCommandTimeout(Duration.ofSeconds(150));
 
-        driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), options);
+        driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
         wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
 
@@ -85,6 +85,8 @@ public class SettingsTest {
                 AppiumBy.xpath("//*[contains(@text,'Android version') or contains(@text,'Build number') or contains(@text,'Model')]"),
                 AppiumBy.xpath("//*[contains(@text,'About')]")
         );
+        Assertions.assertTrue(aboutContentDetected,
+                "About emulated device page content not found.");
     }
 
     private static boolean didNavigateFromMain(String activityBefore) {
